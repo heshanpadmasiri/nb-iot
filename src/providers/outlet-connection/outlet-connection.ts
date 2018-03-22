@@ -15,6 +15,7 @@ export class OutletConnectionProvider {
     console.log('Hello OutletConnectionProvider Provider');
   }
 
+  // Todo:remove this
   test(text:string){
     let db = firebase.firestore();
     db.collection("test").add({
