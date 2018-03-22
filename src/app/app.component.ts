@@ -5,6 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 
+import firebase from 'firebase';
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -29,6 +31,15 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      const config = {
+        apiKey: "AIzaSyDUFjLVJ48ZAkauv19y1xItQ3otgW4SYA8",
+        authDomain: "nb-iot-charger.firebaseapp.com",
+        databaseURL: "https://nb-iot-charger.firebaseio.com",
+        projectId: "nb-iot-charger",
+        storageBucket: "nb-iot-charger.appspot.com",
+        messagingSenderId: "1047831575364"
+      };
+      firebase.initializeApp(config);
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });

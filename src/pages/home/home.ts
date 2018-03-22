@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { BarcodeScanner ,BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 
+import { OutletConnectionProvider } from '../../providers/outlet-connection/outlet-connection';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -15,7 +17,10 @@ export class HomePage {
   connectionState:number; // 0 - not connected 1 - in the middle of connecting 3 - connected
 
 
-  constructor(public navCtrl: NavController,private barcodeScanner: BarcodeScanner) {
+  constructor(
+    public navCtrl: NavController,
+    private barcodeScanner: BarcodeScanner,
+    private outletConnection: OutletConnectionProvider) {
     this.heading = 'Connect to outlet';
     this.connectionState = 0;
   }
@@ -29,10 +34,10 @@ export class HomePage {
         console.log(barcodeData);
         if(!barcodeData.cancelled){
           this.scanData = barcodeData.text;
+          // send this to outlet connectins provider to activate the plug via firebase
         }
     }, (err) => {
         console.log("Error occured : " + err);
-    });         
-}    
-
+    });             
+  }  
 }

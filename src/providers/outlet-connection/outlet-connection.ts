@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import firebase from 'firebase';
+import 'firebase/firestore';
 
 /*
   Generated class for the OutletConnectionProvider provider.
@@ -10,8 +11,15 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class OutletConnectionProvider {
 
-  constructor(public http: HttpClient) {
+  constructor() {
     console.log('Hello OutletConnectionProvider Provider');
+  }
+
+  test(text:string){
+    let db = firebase.firestore();
+    db.collection("test").add({
+      text:text
+    });
   }
 
 }
