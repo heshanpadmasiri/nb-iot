@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';import { StatusBar } from '@ionic-
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { OutletConnectionProvider } from '../providers/outlet-connection/outlet-connection';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     StatusBar,
     SplashScreen,
     BarcodeScanner,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    OutletConnectionProvider
   ]
 })
 export class AppModule {}
