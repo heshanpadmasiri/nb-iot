@@ -84,4 +84,5 @@
     <plugin name="phonegap-plugin-barcodescanner" spec="^7.1.0" />
     <allow-navigation href="http://10.10.23.95:8101" />
     <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
 </widget>
