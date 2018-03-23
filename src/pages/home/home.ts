@@ -36,19 +36,15 @@ export class HomePage {
         if(!barcodeData.cancelled){
           this.scanData = barcodeData.text;
           // send this to outlet connectins provider to activate the plug via firebase
-          this.initiateConnection();
+          this.initiateConnection(barcodeData.text);
         }
     }, (err) => {
         console.log("Error occured : " + err);
     });
   } 
-  
-  test(){
-    this.outletConnection.test("on");
-  }
 
-  initiateConnection(){
-    this.outletConnection.socketCommunication("on");
+
+  initiateConnection(outlet:string){    
     let prompt = this.alertController.create({
       title:'Select Automatic TimeOut Option',
       message:'Select time limit after which your connection will automatically disconnect',
@@ -90,7 +86,7 @@ export class HomePage {
         {
           text:'Select',
           handler: ()=> {
-            this.outletConnection.socketCommunication("on");
+            this.outletConnection.connect(outlet);
             this.heading = "Connected"
             this.outletConnection.outletState = 3;
             this.connectionState = this.outletConnection.outletState;

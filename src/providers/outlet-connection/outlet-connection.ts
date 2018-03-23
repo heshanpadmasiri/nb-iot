@@ -4,6 +4,8 @@ import 'firebase/firestore';
 
 import { Http, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 
+import { Outlet } from '../../Models/Outlet';
+
 /*
   Generated class for the OutletConnectionProvider provider.
 
@@ -15,6 +17,7 @@ export class OutletConnectionProvider {
 
   // REST endpoints
   socketEnnableEndpoint:string = "http://13.76.88.107:8088/nbsend";
+  outlet:Outlet;
   deviceId:string = "863703031920692"
   deviceKey:string = "bf76b2cc1571706da34d33d6ea69768d" 
   outletState:number = 0;
@@ -24,31 +27,25 @@ export class OutletConnectionProvider {
     console.log('Hello OutletConnectionProvider Provider');
   }
 
-  // Todo:remove this
-  test(text:string){
-    const headers = new Headers({
-      'Content-Type':  'application/json',
-    });
-    const requestOptions = new RequestOptions({headers:headers});
-    this.http.post('http://13.76.88.107:8088/nbsend', 
-    {"deviceId":"863703031920692","deviceKey":"bf76b2cc1571706da34d33d6ea69768d","payload": text}, 
-    requestOptions).subscribe(
-      res => {
-        console.log(res);
-      }, 
-      error => {
-        console.error(error);
-      }
-    )
+  async connect(socketId:string){
+    let db = firebase.firestore();
+    await db.collection('sockets').doc(socketId).get()
+      .then(snapShot => {
+        let data = snapShot.data();
+        this.outlet = new Outlet(data.deviceId,data.deviceKey);        
+      });
+    for (let index = 0; index < 1000; index++) {
+      this.socketCommunication('On',this.outlet);          
+    }
   }
 
-  async socketCommunication(message:string){
+  async socketCommunication(message:string,outlet:Outlet){
     const headers = new Headers({
       'Content-Type':  'application/json',
     });
     const requestOptions = new RequestOptions({headers:headers});
     this.http.post(this.socketEnnableEndpoint, 
-    {"deviceId":this.deviceId,"deviceKey":this.deviceKey,"payload": message}, 
+    {"deviceId":outlet.deviceId,"deviceKey":outlet.deviceKey,"payload": message}, 
     requestOptions).subscribe(
       res => {
         console.log(res);
