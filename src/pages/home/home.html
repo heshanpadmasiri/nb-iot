@@ -12,8 +12,13 @@
   <ion-grid style="height:100%">        
     <ion-row justify-content-center align-items-center style="height: 100%">   
       <div *ngIf="connectionState==0">      
-        <button ion-button icon-only large round outline (click)="test()">
+        <button ion-button icon-only large round outline (click)="scan()">
           <ion-icon name="outlet"></ion-icon>
+        </button>
+      </div>
+      <div *ngIf="connectionState==3">
+        <button ion-button icon-only large round outline (click)="disconnect()">
+          <ion-icon name="leaf" color="secondary"></ion-icon>
         </button>
       </div>
     </ion-row>         

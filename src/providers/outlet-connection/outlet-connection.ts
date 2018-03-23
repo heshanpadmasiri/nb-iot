@@ -16,7 +16,9 @@ export class OutletConnectionProvider {
   // REST endpoints
   socketEnnableEndpoint:string = "http://13.76.88.107:8088/nbsend";
   deviceId:string = "863703031920692"
-  deviceKey:string = "bf76b2cc1571706da34d33d6ea69768d"  
+  deviceKey:string = "bf76b2cc1571706da34d33d6ea69768d" 
+  outletState:number = 0;
+  startTime:number;
 
   constructor(public http:Http) {
     console.log('Hello OutletConnectionProvider Provider');
