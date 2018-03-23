@@ -26,6 +26,8 @@ export class HomePage {
     this.connectionState = outletConnection.outletState;
   }
 
+  ionViewDidLoad(){}
+
   scan(){
     this.options = {
         prompt : "Scan QR code of outlet"
@@ -99,6 +101,10 @@ export class HomePage {
   }
 
   disconnect(){
-
+    this.outletConnection.disconnect();
+    this.outletConnection.outletState = 0;
+    this.connectionState = this.outletConnection.outletState;
+    this.heading = 'Connect to outlet';
+    this.ionViewDidLoad();
   }
 }

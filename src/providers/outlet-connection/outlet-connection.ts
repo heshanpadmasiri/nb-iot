@@ -39,6 +39,10 @@ export class OutletConnectionProvider {
     }
   }
 
+  async disconnect(){
+    this.socketCommunication('Off',this.outlet);
+  }
+
   async socketCommunication(message:string,outlet:Outlet){
     const headers = new Headers({
       'Content-Type':  'application/json',
