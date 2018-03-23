@@ -35,9 +35,14 @@ export class HomePage {
         if(!barcodeData.cancelled){
           this.scanData = barcodeData.text;
           // send this to outlet connectins provider to activate the plug via firebase
+          this.outletConnection.socketCommunication(barcodeData.text);
         }
     }, (err) => {
         console.log("Error occured : " + err);
-    });             
-  }  
+    });
+  } 
+  
+  test(){
+    this.outletConnection.test("on");
+  }
 }
