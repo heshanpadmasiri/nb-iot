@@ -21,18 +21,27 @@ export class OutletConnectionProvider {
   deviceId:string = "863703031920692"
   deviceKey:string = "bf76b2cc1571706da34d33d6ea69768d" 
   outletState:number = 0;
-  startTime:number;
+  lastTime:number;
+  docRef:any;
+  totalPowerConsumption:number;
 
   constructor(public http:Http) {
     console.log('Hello OutletConnectionProvider Provider');
   }
 
   async connect(socketId:string){
+    this.totalPowerConsumption = 0;    
     let db = firebase.firestore();
     await db.collection('sockets').doc(socketId).get()
       .then(snapShot => {
         let data = snapShot.data();
-        this.outlet = new Outlet(data.deviceId,data.deviceKey);        
+        this.outlet = new Outlet(data.deviceId,data.deviceKey,data.current_usage);
+        this.docRef = snapShot.ref;
+        setInterval(()=>{
+          this.docRef.get().then(snapShot => {
+            this.outlet.current_usage = snapShot.data().current_usage;
+          },10000);
+        })
       });
     for (let index = 0; index < 1000; index++) {
       this.socketCommunication('On',this.outlet);          

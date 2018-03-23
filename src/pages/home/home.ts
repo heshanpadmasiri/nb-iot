@@ -20,7 +20,7 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     private barcodeScanner: BarcodeScanner,
-    private outletConnection: OutletConnectionProvider,
+    public outletConnection: OutletConnectionProvider,
     private alertController: AlertController) {
     this.heading = 'Connect to outlet';
     this.connectionState = outletConnection.outletState;
@@ -92,7 +92,13 @@ export class HomePage {
             this.heading = "Connected"
             this.outletConnection.outletState = 3;
             this.connectionState = this.outletConnection.outletState;
-            this.outletConnection.startTime = Date.now();
+            this.outletConnection.lastTime = Date.now();
+            setInterval(()=> {
+              let currentTime = Date.now()
+              let escapedTime = currentTime - this.outletConnection.lastTime;
+              this.outletConnection.lastTime = currentTime;
+              this.outletConnection.totalPowerConsumption += escapedTime * this.outletConnection.outlet.current_usage;
+            },10000);
           }
         }
       ]

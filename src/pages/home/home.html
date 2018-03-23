@@ -9,14 +9,17 @@
 
 <ion-content padding="true">
   <h1 text-center>{{heading}}</h1>
+  <div *ngIf="connectionState==3">
+    <h3 text-center>Power Usage:{{this.outletConnection.totalPowerConsumption}}kWh</h3>
+  </div>
   <ion-grid style="height:100%">        
-    <ion-row justify-content-center align-items-center style="height: 100%">   
+    <ion-row justify-content-center align-items-center style="height: 100%">
       <div *ngIf="connectionState==0">      
         <button ion-button icon-only large round outline (click)="scan()">
           <ion-icon name="outlet"></ion-icon>
         </button>
       </div>
-      <div *ngIf="connectionState==3">
+      <div *ngIf="connectionState==3">        
         <button ion-button icon-only large round outline (click)="disconnect()">
           <ion-icon name="leaf" color="secondary"></ion-icon>
         </button>
