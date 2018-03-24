@@ -115,9 +115,25 @@ export class OutletsPage {
   }
 
   addMarkers(){
+    let image1 = {
+      url: "https://image.flaticon.com/icons/svg/143/143962.svg",      
+      scaledSize: new google.maps.Size(25, 25),      
+      origin: new google.maps.Point(0, 0),      
+      anchor: new google.maps.Point(0, 32)
+    };
+    let image2 = {
+      url: "https://image.flaticon.com/icons/svg/143/143960.svg",      
+      scaledSize: new google.maps.Size(25, 25),      
+      origin: new google.maps.Point(0, 0),      
+      anchor: new google.maps.Point(0, 32)
+    };
+    let icons = [image1,image2];
+    let iconUrl = "https://image.flaticon.com/icons/svg/763/763425.svg"
     this.chargingPoints.forEach(chargingPoint => {
       let latLng = new google.maps.LatLng(chargingPoint[0],chargingPoint[1]);
           var marker = new google.maps.Marker({
+            
+            icon:icons[Math.floor(Math.random() * Math.floor(2))],
             position: latLng,
             map: this.map
           });
