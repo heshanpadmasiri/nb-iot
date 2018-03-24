@@ -7,6 +7,7 @@ import { MyApp } from './app.component';
 
 import { HomePage } from '../pages/home/home';
 import { OutletsPage} from '../pages/outlets/outlets';
+import { UsagePage } from '../pages/usage/usage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -17,22 +18,28 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 import { OutletConnectionProvider } from '../providers/outlet-connection/outlet-connection';
 
+import { ChartsModule } from 'ng2-charts';
+import { UsageProvider } from '../providers/usage/usage';
+
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    OutletsPage
+    OutletsPage,
+    UsagePage
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    ChartsModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    OutletsPage
+    OutletsPage,
+    UsagePage
   ],
   providers: [
     StatusBar,
@@ -40,7 +47,8 @@ import { OutletConnectionProvider } from '../providers/outlet-connection/outlet-
     BarcodeScanner,
     Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    OutletConnectionProvider
+    OutletConnectionProvider,
+    UsageProvider
   ]
 })
 export class AppModule {}

@@ -3,6 +3,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { BarcodeScanner ,BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 
 import { OutletConnectionProvider } from '../../providers/outlet-connection/outlet-connection';
+import { UsageProvider } from '../../providers/usage/usage';
 
 @Component({
   selector: 'page-home',
@@ -21,7 +22,8 @@ export class HomePage {
     public navCtrl: NavController,
     private barcodeScanner: BarcodeScanner,
     public outletConnection: OutletConnectionProvider,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private usageProvider:UsageProvider) {
     this.heading = 'Connect to outlet';
     this.connectionState = outletConnection.outletState;
   }
@@ -94,10 +96,14 @@ export class HomePage {
             this.connectionState = this.outletConnection.outletState;
             this.outletConnection.lastTime = Date.now();
             setInterval(()=> {
-              let currentTime = Date.now()
-              let escapedTime = currentTime - this.outletConnection.lastTime;
-              this.outletConnection.lastTime = currentTime;
-              this.outletConnection.totalPowerConsumption += escapedTime * this.outletConnection.outlet.current_usage;
+              if(this.outletConnection.outletState == 3){
+                let currentTime = Date.now()
+                let escapedTime = currentTime - this.outletConnection.lastTime;
+                this.outletConnection.lastTime = currentTime;
+                let additive = escapedTime * this.outletConnection.outlet.current_usage;
+                this.outletConnection.totalPowerConsumption += additive;
+                this.usageProvider.addPowerUsage(additive);
+              }              
             },10000);
           }
         }
