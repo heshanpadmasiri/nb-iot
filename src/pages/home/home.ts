@@ -5,6 +5,8 @@ import { BarcodeScanner ,BarcodeScannerOptions } from '@ionic-native/barcode-sca
 import { OutletConnectionProvider } from '../../providers/outlet-connection/outlet-connection';
 import { UsageProvider } from '../../providers/usage/usage';
 
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -17,13 +19,15 @@ export class HomePage {
   heading:string;
   connectionState:number; // 0 - not connected 1 - in the middle of connecting 3 - connected
 
+  MAC:string='00:21:13:02:84:C2';
 
   constructor(
     public navCtrl: NavController,
     private barcodeScanner: BarcodeScanner,
     public outletConnection: OutletConnectionProvider,
     private alertController: AlertController,
-    private usageProvider:UsageProvider) {
+    private usageProvider:UsageProvider,
+    private bluetoothSerial:BluetoothSerial) {
     this.heading = 'Connect to outlet';
     this.connectionState = outletConnection.outletState;
   }
@@ -105,6 +109,20 @@ export class HomePage {
                 this.usageProvider.addPowerUsage(additive);
               }              
             },10000);
+            this.bluetoothSerial.connectInsecure(this.MAC).subscribe(
+              success => {
+                this.heading = "device Connected";
+                this.bluetoothSerial.write('y');
+                this.bluetoothSerial.subscribe('\n').subscribe(
+                  success => {
+                    this.heading = success;
+                  }
+                );
+              },
+              error => {
+                this.heading = error;
+              }
+            );            
           }
         }
       ]
@@ -113,6 +131,8 @@ export class HomePage {
   }
 
   disconnect(){
+    this.bluetoothSerial.write('n');
+    this.bluetoothSerial.disconnect();
     this.outletConnection.disconnect();
     this.outletConnection.outletState = 0;
     this.connectionState = this.outletConnection.outletState;

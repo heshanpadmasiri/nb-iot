@@ -29,6 +29,10 @@ export class OutletConnectionProvider {
     console.log('Hello OutletConnectionProvider Provider');
   }
 
+  async updateCurrent(current:number){
+    this.outlet.current_usage = current;
+  }
+
   async connect(socketId:string){
     this.totalPowerConsumption = 0;    
     let db = firebase.firestore();

@@ -21,6 +21,8 @@ import { OutletConnectionProvider } from '../providers/outlet-connection/outlet-
 import { ChartsModule } from 'ng2-charts';
 import { UsageProvider } from '../providers/usage/usage';
 
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -46,6 +48,7 @@ import { UsageProvider } from '../providers/usage/usage';
     SplashScreen,
     BarcodeScanner,
     Geolocation,
+    BluetoothSerial,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     OutletConnectionProvider,
     UsageProvider
